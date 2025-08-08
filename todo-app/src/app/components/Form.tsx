@@ -40,6 +40,7 @@ export const Form = (props: Props) => {
       <input
         className="border focus:outline-none focus:border-blue-200 rounded p-0.5"
         type="text"
+        placeholder="Task Title"
         value={title}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setTitle(e.target.value)

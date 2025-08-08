@@ -3,12 +3,15 @@ import { NextResponse } from "next/server";
 import { connect, prisma } from "../route";
 
 // タスクを編集
-export const PUT = async (req: Request) => {
+export const PUT = async (
+  req: Request,
+  { params }: { params: { id: string } }
+) => {
   try {
     await connect();
 
-    const id: string = req.url.split("/tasks")[1];
     const { title } = await req.json();
+    const { id } = params;
 
     const newTask = await prisma.task.update({
       data: { title },
@@ -26,11 +29,15 @@ export const PUT = async (req: Request) => {
 };
 
 // タスクを削除
-export const DELETE = async (req: Request) => {
+export const DELETE = async (
+  req: Request,
+  { params }: { params: { id: string } }
+) => {
   try {
     await connect();
 
-    const id: string = req.url.split("/tasks")[1];
+    const { id } = params;
+
     const task = await prisma.task.delete({
       where: { id },
     });
