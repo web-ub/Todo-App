@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 export const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ export const connect = async () => {
   try {
     await prisma.$connect();
   } catch (error) {
-    NextResponse.json(
+    return NextResponse.json(
       { message: "データベースとの接続に失敗しました", error },
       { status: 500 }
     );
@@ -52,6 +52,6 @@ export const POST = async (req: Request) => {
       { status: 500 }
     );
   } finally {
-    prisma.$disconnect();
+    await prisma.$disconnect();
   }
 };
