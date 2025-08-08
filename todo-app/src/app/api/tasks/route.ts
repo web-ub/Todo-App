@@ -18,7 +18,8 @@ export const connect = async () => {
 // 全てのタスクを取得
 export const GET = async () => {
   try {
-    await connect();
+    const connectResponse = await connect();
+    if (connectResponse) return connectResponse;
 
     const tasks = await prisma.task.findMany();
     return NextResponse.json(tasks);
@@ -35,7 +36,8 @@ export const GET = async () => {
 // タスクを追加
 export const POST = async (req: Request) => {
   try {
-    await connect();
+    const connectResponse = await connect();
+    if (connectResponse) return connectResponse;
 
     const { title } = await req.json();
     if (!title)

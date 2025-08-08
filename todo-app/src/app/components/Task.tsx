@@ -49,7 +49,7 @@ export const Task = (props: Props) => {
 
   const handleDelete = async () => {
     await deleteTask(id);
-    await fetchAllTasks();
+    await fetchAllTasks()
   }
 
   return (

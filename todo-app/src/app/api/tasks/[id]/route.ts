@@ -8,23 +8,24 @@ export const PUT = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connect();
+    const connectResponse = await connect();
+    if (connectResponse) return connectResponse;
 
     const { title } = await req.json();
-    const { id } = params;
+    const { id } = await params;
 
-    const newTask = await prisma.task.update({
+    const updatedTask = await prisma.task.update({
       data: { title },
       where: { id },
     });
-    return NextResponse.json(newTask);
+    return NextResponse.json(updatedTask);
   } catch (error) {
     return NextResponse.json(
       { message: "タスクの編集に失敗しました", error },
       { status: 500 }
     );
   } finally {
-    prisma.$disconnect();
+    await prisma.$disconnect();
   }
 };
 
@@ -34,9 +35,10 @@ export const DELETE = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connect();
+    const connectResponse = await connect();
+    if (connectResponse) return connectResponse;
 
-    const { id } = params;
+    const { id } = await params;
 
     const task = await prisma.task.delete({
       where: { id },
@@ -47,5 +49,7 @@ export const DELETE = async (
       { message: "タスクの削除に失敗しました", error },
       { status: 500 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 };
